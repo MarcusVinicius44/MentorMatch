@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+/* ==========================================================================
+   TEMA ESCURO NATIVO
+   ========================================================================== */
+html.dark {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #09090b !important;
+  color: #f4f4f5 !important;
+}
+
+/* ==========================================================================
+   TEMA DE ALTO CONTRASTE REFORÇADO (WCAG AAA)
+   Aplica contraste absoluto em tudo e anula qualquer cor sutil
+   ========================================================================== */
+html.high-contrast-theme {
+  --background: #000000 !important;
+  --foreground: #ffff00 !important;
+  color-scheme: dark;
+}
+
+html.high-contrast-theme,
+html.high-contrast-theme body {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+}
+
+/* Neutraliza fundos brancos/cinzas e bordas para alto contraste */
+html.high-contrast-theme *:not(img):not(svg):not(path) {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border-color: #ffff00 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Textos e links destacados */
+html.high-contrast-theme a {
+  color: #00ffff !important;
+  text-decoration: underline !important;
+  font-weight: 700 !important;
+}
+
+html.high-contrast-theme a:hover,
+html.high-contrast-theme a:focus-visible {
+  background-color: #00ffff !important;
+  color: #000000 !important;
+}
+
+/* Botões em Alto Contraste */
+html.high-contrast-theme button {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border: 2px solid #ffff00 !important;
+  font-weight: 800 !important;
+}
+
+html.high-contrast-theme button:hover,
+html.high-contrast-theme button:focus-visible {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+/* Inputs, textareas e selects em alto contraste */
+html.high-contrast-theme input,
+html.high-contrast-theme select,
+html.high-contrast-theme textarea {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffff00 !important;
+}
+
+html.high-contrast-theme input::placeholder,
+html.high-contrast-theme textarea::placeholder {
+  color: #ffffaa !important;
+}
+
+/* Remove todos os gradientes que quebram visibilidade */
+html.high-contrast-theme [class*="bg-linear-"] {
+  background: #000000 !important;
+  background-image: none !important;
+}
+
+/* ==========================================================================
+   MODO TDAH (Foco cognitivo, baixa sobrecarga sensorial e leitura clara)
+   ========================================================================== */
+html.adhd-mode {
+  letter-spacing: 0.03em;
+  word-spacing: 0.08em;
+}
+
+html.adhd-mode body {
+  background-color: #fdfbf7 !important;
+  color: #1a1a1a !important;
+}
+
+html.dark.adhd-mode body {
+  background-color: #121214 !important;
+  color: #e4e4e7 !important;
+}
+
+html.adhd-mode p {
+  line-height: 1.85 !important;
+  margin-bottom: 0.8rem;
+}
+
+html.adhd-mode [class*="bg-linear-"] {
+  background: none !important;
+  background-image: none !important;
+  border-width: 2px !important;
+}
+
+/* ==========================================================================
+   TIPOGRAFIA & LEGIBILIDADE (DISLEXIA / TAMANHOS)
+   ========================================================================== */
+html.dyslexic-font {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: 0.06em !important;
+  word-spacing: 0.15em !important;
+  line-height: 1.9 !important;
+}
+
+html.text-size-large {
+  font-size: 112.5% !important;
+}
+
+html.text-size-xlarge {
+  font-size: 125% !important;
+}
+
+/* ==========================================================================
+   REDUÇÃO DE MOVIMENTO (PREFERS REDUCED MOTION)
+   ========================================================================== */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ==========================================================================
+   FOCO VISÍVEL PARA NAVEGAÇÃO VIA TECLADO (TAB)
+   ========================================================================== */
+:focus-visible {
+  outline: 3px solid #2563eb !important;
+  outline-offset: 3px !important;
+}
+
+html.dark :focus-visible {
+  outline: 3px solid #60a5fa !important;
+}
+
+html.high-contrast-theme :focus-visible {
+  outline: 4px solid #00ffff !important;
+  outline-offset: 4px !important;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
