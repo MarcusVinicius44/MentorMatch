@@ -1,0 +1,30 @@
+# Configuração do Firebase App Hosting (Google Cloud).
+# Docs: https://firebase.google.com/docs/app-hosting/configure
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 2
+
+env:
+  # Config pública do app Web do Firebase (não é segredo). Precisa existir no build.
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyAjkvSZZlUijCzW3UzmzcYcBp7NFPIRdA0
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: mentormatchgdg.firebaseapp.com
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: mentormatchgdg
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:348660320787:web:462e4507c79035b7338de6
+    availability: [BUILD, RUNTIME]
+
+  # Segredo: criado com `firebase apphosting:secrets:set GEMINI_API_KEY`.
+  - variable: GEMINI_API_KEY
+    secret: GEMINI_API_KEY
+    availability: [RUNTIME]
+  - variable: GEMINI_MODEL
+    value: gemini-3.8-flash
+    availability: [RUNTIME]
