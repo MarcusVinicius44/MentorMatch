@@ -1,5 +1,17 @@
 {
   "firestore": {
     "rules": "firestore.rules"
+  },
+  "apphosting": {
+    "backendId": "mentor-match",
+    "rootDir": "/",
+    "ignore": [
+      "node_modules",
+      ".git",
+      ".next",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      ".env*"
+    ]
   }
 }
