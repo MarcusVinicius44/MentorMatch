@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
@@ -26,8 +27,13 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-          <Header />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">{children}</main>
+          {/* usePathname no Header exige Suspense em rotas dinâmicas como /chat/[id]. */}
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
+          <main className="mx-auto w-full max-w-4xl flex-1 px-4 pb-28 pt-6 md:pb-10 md:pt-8">
+            {children}
+          </main>
         </AuthProvider>
       </body>
     </html>
