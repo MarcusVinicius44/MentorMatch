@@ -119,13 +119,27 @@ function MatchCard({ me, match, user }) {
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2 text-sm">
-        {learn.map((t) => (
-          <span key={`l-${t}`} className="chip chip-on">Ensina: {t}</span>
-        ))}
-        {teach.map((t) => (
-          <span key={`t-${t}`} className="chip">Quer aprender: {t}</span>
-        ))}
+      <div className="mt-3 flex flex-col gap-3 text-sm">
+        {learn.length > 0 && (
+          <div>
+            <p className="mb-1.5 font-medium text-zinc-700 dark:text-zinc-300">Ensina:</p>
+            <div className="flex flex-wrap gap-2">
+              {learn.map((t) => (
+                <span key={`l-${t}`} className="chip chip-on">{t}</span>
+              ))}
+            </div>
+          </div>
+        )}
+        {teach.length > 0 && (
+          <div>
+            <p className="mb-1.5 font-medium text-zinc-700 dark:text-zinc-300">Quer aprender:</p>
+            <div className="flex flex-wrap gap-2">
+              {teach.map((t) => (
+                <span key={`t-${t}`} className="chip">{t}</span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {failed ? (
