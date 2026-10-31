@@ -69,6 +69,8 @@ function MatchCard({ me, match, user }) {
   const { profile, learn, teach } = match;
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -81,9 +83,12 @@ function MatchCard({ me, match, user }) {
           body: JSON.stringify({ me, candidate: profile }),
         });
         const data = await res.json();
-        if (!cancelled) setText(res.ok ? data.text : "");
-      } catch {
-        // Sem explicação da IA o card continua útil com os assuntos em comum.
+        if (!res.ok || !data.text) throw new Error(data.error ?? `HTTP ${res.status}`);
+        if (!cancelled) setText(data.text);
+      } catch (err) {
+        // O card continua útil com os assuntos em comum; só avisamos que a IA falhou.
+        console.error("Falha ao gerar explicação:", err);
+        if (!cancelled) setFailed(true);
       } finally {
         if (!cancelled) setBusy(false);
       }
@@ -91,7 +96,13 @@ function MatchCard({ me, match, user }) {
     return () => {
       cancelled = true;
     };
-  }, [me, profile, user]);
+  }, [me, profile, user, attempt]);
+
+  function retry() {
+    setBusy(true);
+    setFailed(false);
+    setAttempt((n) => n + 1);
+  }
 
   return (
     <article className="rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
@@ -117,9 +128,18 @@ function MatchCard({ me, match, user }) {
         ))}
       </div>
 
-      <p className="mt-3 text-zinc-700 dark:text-zinc-300">
-        {busy ? "Gemini está pensando..." : text}
-      </p>
+      {failed ? (
+        <p className="mt-3 text-sm text-amber-700 dark:text-amber-400">
+          Não foi possível gerar a explicação agora.{" "}
+          <button onClick={retry} className="underline">
+            Tentar de novo
+          </button>
+        </p>
+      ) : (
+        <p className="mt-3 text-zinc-700 dark:text-zinc-300">
+          {busy ? "Gemini está pensando..." : text}
+        </p>
+      )}
     </article>
   );
 }
