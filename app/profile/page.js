@@ -48,19 +48,27 @@ export default function ProfilePage() {
     }
     setSaving(true);
     try {
-      await setDoc(doc(db, "profiles", user.uid), {
-        name: form.name.trim(),
-        level: form.level,
-        learning: form.learning,
-        teaching: form.teaching,
-        bio: form.bio.trim(),
-        photoURL: user.photoURL ?? "",
-        updatedAt: serverTimestamp(),
-      });
+      // Sem banco criado ou sem rede, o Firestore tenta para sempre; o timeout evita travar a tela.
+      await Promise.race([
+        setDoc(doc(db, "profiles", user.uid), {
+          name: form.name.trim(),
+          level: form.level,
+          learning: form.learning,
+          teaching: form.teaching,
+          bio: form.bio.trim(),
+          photoURL: user.photoURL ?? "",
+          updatedAt: serverTimestamp(),
+        }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 10000)),
+      ]);
       router.push("/matches");
     } catch (err) {
       console.error(err);
-      setError("Não foi possível salvar. Tente de novo.");
+      setError(
+        err.message === "timeout"
+          ? "O banco não respondeu. Verifique se o Firestore foi criado no Firebase e tente de novo."
+          : "Não foi possível salvar. Tente de novo.",
+      );
       setSaving(false);
     }
   }
